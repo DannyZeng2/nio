@@ -1,4 +1,4 @@
-package bio.multiThread;
+package bio.threadpool;
 
 import java.io.IOException;
 import java.io.OutputStream;

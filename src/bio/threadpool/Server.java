@@ -1,8 +1,7 @@
-package bio.multiThread;
+package bio.threadpool;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import bio.multithread.ServerThreadReader;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,10 +10,11 @@ public class Server {
         try {
             System.out.println("listening at port 9999...");
             ServerSocket serverSocket = new ServerSocket(9999);
+            SocketServerPoolHandler socketServerPoolHandler = new SocketServerPoolHandler(6,120,10);
+
             while (true) {
                 Socket socket = serverSocket.accept();
-                new ServerThreadReader(socket).start();
-
+                socketServerPoolHandler.execute(new ServerRunnableTarget(socket));
             }
 
         } catch (Exception e) {

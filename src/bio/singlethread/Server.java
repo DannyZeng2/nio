@@ -1,11 +1,13 @@
 package bio.singlethread;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         try {
             System.out.println("listening at port 9999...");
             ServerSocket serverSocket = new ServerSocket(9999);
@@ -14,7 +16,7 @@ public class Server {
             InputStream is = socket.getInputStream();
             // 把字节输入流对象包装成缓冲字符输入流对象
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String msg ;
+            String msg;
 
             while ((msg = br.readLine()) != null) {
                 System.out.println("服务端收到消息：" + msg);

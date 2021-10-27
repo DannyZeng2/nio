@@ -41,6 +41,9 @@ public class ChannelTest {
         }
     }
 
+    /**
+     * 复制数据
+     */
     @Test
     public void copy() {
         try {
@@ -70,6 +73,38 @@ public class ChannelTest {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 分散与聚集
+     */
+    @Test
+    public void scatter_and_gather() {
+        try {
+            FileInputStream fis = new FileInputStream("src/nio/channel/input/IMG_001.JPG");
+            FileOutputStream fos = new FileOutputStream("src/nio/channel/output/IMG_002.JPG");
+
+            FileChannel outputChannel = fos.getChannel();
+            FileChannel inputChannel = fis.getChannel();
+
+            ByteBuffer buffer1 = ByteBuffer.allocate(5020);
+            ByteBuffer buffer2 = ByteBuffer.allocate(32424);
+            ByteBuffer buffer3 = ByteBuffer.allocate(100000);
+
+            ByteBuffer[] buffers = {buffer1,buffer2,buffer3};
+
+            // 从一个channel读取数据到多个缓冲区
+            inputChannel.read(buffers);
+            for (ByteBuffer buffer : buffers) {
+                buffer.flip();
+            }
+            outputChannel.write(buffers);
+            inputChannel.close();
+            outputChannel.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

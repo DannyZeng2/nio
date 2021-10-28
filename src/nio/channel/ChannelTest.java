@@ -49,11 +49,11 @@ public class ChannelTest {
         try {
             ByteBuffer buffer = ByteBuffer.allocate(1024);
 
-            FileInputStream fis = new FileInputStream("src/nio/channel/input/IMG_001.JPG");
+            FileInputStream fis = new FileInputStream("src/nio/channel/input/morty01.jpeg");
             FileChannel inputChannel = fis.getChannel();
 
 
-            FileOutputStream fos = new FileOutputStream("src/nio/channel/output/IMG_002.JPG");
+            FileOutputStream fos = new FileOutputStream("src/nio/channel/output/morty02.jpeg");
             FileChannel outputChannel = fos.getChannel();
 
             while (true){
@@ -80,8 +80,8 @@ public class ChannelTest {
     @Test
     public void scatter_and_gather() {
         try {
-            FileInputStream fis = new FileInputStream("src/nio/channel/input/IMG_001.JPG");
-            FileOutputStream fos = new FileOutputStream("src/nio/channel/output/IMG_002.JPG");
+            FileInputStream fis = new FileInputStream("src/nio/channel/input/morty01.jpeg");
+            FileOutputStream fos = new FileOutputStream("src/nio/channel/output/morty02.jpeg");
 
             FileChannel outputChannel = fos.getChannel();
             FileChannel inputChannel = fis.getChannel();
@@ -105,6 +105,22 @@ public class ChannelTest {
         }
     }
 
+    @Test
+    public void transfer_from_and_to(){
+        try{
+            FileInputStream fis = new FileInputStream("src/nio/channel/input/morty01.jpeg");
+            FileOutputStream fos = new FileOutputStream("src/nio/channel/output/morty02.jpeg");
+            FileChannel outputChannel = fos.getChannel();
+            FileChannel inputChannel = fis.getChannel();
 
+            inputChannel.transferTo(inputChannel.position(),inputChannel.size(),outputChannel);
+            // outputChannel.transferFrom(inputChannel,inputChannel.position(),inputChannel.size());
 
+            inputChannel.close();
+            outputChannel.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
